@@ -1,0 +1,27 @@
+# Node modules
+react/node_modules
+react/dist
+
+# Maven build artifacts
+spring-boot/target
+spring-boot/.mvn
+spring-boot/mvnw
+spring-boot/mvnw.cmd
+
+# Git
+.git
+.gitignore
+
+# IDEs
+.idea
+.vscode
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
