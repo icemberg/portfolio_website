@@ -17,9 +17,9 @@ spring-boot/mvnw.cmd
 .vscode
 *.iml
 
-# OS files
-.DS_Store
-Thumbs.db
+# Google Credentials
+spring-boot/src/main/resources/credentials.json
+spring-boot/src/main/resources/tokens
 
 # Docker files
 Dockerfile

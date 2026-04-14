@@ -1,22 +1,22 @@
 package com.abhiraams.portfolio.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final GmailApiService gmailApiService;
 
     public void sendEmail(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("system@abhiraam.com"); // Placeholder as sender
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
+        try {
+            gmailApiService.sendEmail(to, subject, body);
+        } catch (Exception e) {
+            log.error("Failed to send email via Gmail API: {}", e.getMessage());
+            throw new RuntimeException("Email sending failed", e);
+        }
     }
 }
