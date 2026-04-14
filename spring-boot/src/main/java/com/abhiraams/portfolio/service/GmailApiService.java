@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,14 +34,22 @@ public class GmailApiService {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String APP_NAME = "Portfolio";
 
-    public void sendEmail(String to, String subject, String body) throws IOException, GeneralSecurityException, MessagingException {
-        // We assume the user has authorized under the principal "admin"
-        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient("google", "admin");
+    @Value("${email.owner.principal}")
+    private String ownerPrincipal;
+
+    public void sendEmail(String to, String subject, String body)
+            throws IOException, GeneralSecurityException, MessagingException {
+        log.info("Attempting to load authorized client for registration: google, principal: {}", ownerPrincipal);
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient("google", ownerPrincipal);
 
         if (client == null) {
-            log.error("No authorized Google client found for 'admin'. Please visit /login first.");
+            log.error(
+                    "Failed to load authorized client. No token found in database for principal: {}. Please visit /login to authorize.",
+                    ownerPrincipal);
             throw new IllegalStateException("Gmail not authorized. Please visit /login first.");
         }
+
+        log.info("Successfully loaded authorized client. Proceeding to send email to {}", to);
 
         String accessToken = client.getAccessToken().getTokenValue();
 

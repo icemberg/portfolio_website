@@ -15,7 +15,7 @@ public class EmailService {
         try {
             gmailApiService.sendEmail(to, subject, body);
         } catch (Exception e) {
-            log.error("Failed to send email via Gmail API: {}", e.getMessage());
+            log.error("Email service failed to send message: {}", e.getMessage(), e);
             throw new RuntimeException("Email sending failed", e);
         }
     }
