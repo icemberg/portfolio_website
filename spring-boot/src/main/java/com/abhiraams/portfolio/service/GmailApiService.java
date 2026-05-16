@@ -32,7 +32,7 @@ public class GmailApiService {
 
     private final OAuth2AuthorizedClientService authorizedClientService;
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String APP_NAME = "Portfolio";
+    private static final String APP_NAME = "Java portfolio Website";
 
     @Value("${email.owner.principal}")
     private String ownerPrincipal;

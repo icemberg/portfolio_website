@@ -26,6 +26,27 @@
 		<tag/>
 		<url/>
 	</scm>
+		<profiles>
+		<!-- Local Profile -->
+		<profile>
+			<id>local</id>
+			<properties>
+				<active.profile>local</active.profile>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<!-- Prod Profile -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<active.profile>prod</active.profile>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
 		<java.version>17</java.version>
 		<spring-ai.version>2.0.0-M4</spring-ai.version>
@@ -142,6 +163,12 @@
   </dependencyManagement>
 
 	<build>
+	    <resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
