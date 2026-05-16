@@ -8,8 +8,8 @@
 [![AI](https://img.shields.io/badge/AI-Mistral-purple.svg)](https://mistral.ai/)
 [![Deployment](https://img.shields.io/badge/Deployment-Render-black.svg)](https://render.com/)
 
-**Deployment URL:** <INSERT_DEPLOYMENT_URL>
-**Repository URL:** https://github.com/icemberg
+**Deployment URL:** https://abhiraams.netlify.app
+**Repository URL:** https://github.com/icemberg/portfolio_website
 
 ---
 
