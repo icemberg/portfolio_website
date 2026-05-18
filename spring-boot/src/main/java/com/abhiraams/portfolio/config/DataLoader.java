@@ -69,7 +69,7 @@ public class DataLoader {
             e1.setTitle("Java Developer Trainee");
             e1.setCompany("HulkHire Tech");
             e1.setLocation("Hyderabad, India");
-            e1.setDuration("Feb 2025 - Mar 2025");
+            e1.setDuration("Feb 2026 - April 2026");
             e1.setDescription("Architected Spring Boot microservices for Stripe payment processing, implementing full REST API lifecycle including webhook handling, idempotency, and error recovery; secured endpoints using Spring Security with JWT, OAuth2, and HmacSHA256 signature verification.");
             e1.setBulletPoints(Arrays.asList(
                 "Deployed services on AWS (EC2 + RDS) with Dockerized containers and a CI/CD pipeline",
@@ -81,7 +81,7 @@ public class DataLoader {
             e2.setTitle("AI/ML Intern");
             e2.setCompany("VisionAstraa EV Academy");
             e2.setLocation("Bengaluru, India");
-            e2.setDuration("Feb 2025 - Present");
+            e2.setDuration("Feb 2026 - May 2026");
             e2.setDescription("Designing and training machine learning models for Electric Vehicle performance optimization and predictive analytics using Python and scikit-learn.");
             e2.setBulletPoints(Arrays.asList(
                 "Built end-to-end data science pipelines from data ingestion and preprocessing to model training and performance evaluation",
