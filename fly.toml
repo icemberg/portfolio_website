@@ -1,0 +1,19 @@
+app = "abhiraams" # Replace with your globally unique app name
+primary_region = "bom" # Replace with your preferred region (e.g., iad, ams, syd)
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  # Spring Boot usually requires at least 512MB to 1GB of memory to run comfortably
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
