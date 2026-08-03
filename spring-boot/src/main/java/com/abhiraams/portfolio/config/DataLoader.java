@@ -28,7 +28,7 @@ public class DataLoader {
             profile.setGfg("https://www.geeksforgeeks.org/profile/abhiraa3lgv?tab=activity");
             profile.setHackerrank("https://www.hackerrank.com/profile/abhiraams2004");
             profile.setSummary(
-                    "Results-driven Software Engineer with hands-on experience building production-grade Java Spring Boot microservices, REST APIs, and full-stack applications. Proficient in Python-based machine learning, data science pipelines, and AI systems. Demonstrated ability to integrate security, caching layers, cloud deployments, and CI/CD pipelines. Strong foundation in Data Structures & Algorithms (250+ problems), Object-Oriented Design, and System Design. Seeking a software engineering or AI/ML role to drive scalable, high-impact solutions.");
+                    "Results-driven Software Engineer with hands-on experience building production-grade microservices, REST APIs, and full-stack applications. Proficient in machine learning, data science pipelines, and AI systems. Demonstrated ability to integrate security, caching layers, cloud deployments, and CI/CD pipelines. Strong foundation in Data Structures & Algorithms, Object-Oriented Design, and System Design. Passionate about building scalable, high-impact solutions.");
 
             // Skills
             Skill languages = new Skill();

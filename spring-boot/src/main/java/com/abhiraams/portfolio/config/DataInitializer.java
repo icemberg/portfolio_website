@@ -30,7 +30,7 @@ public class DataInitializer implements CommandLineRunner {
                 profile.setLinkedin("https://linkedin.com/in/abhiraam-s"); // Pattern derived
                 profile.setGithub("https://github.com/icemberg");
                 profile.setSummary(
-                                "Results-driven Software Engineer with hands-on experience building production-grade Java Spring Boot microservices, REST APIs, and full-stack applications. Proficient in Python-based machine learning, data science pipelines, and AI systems. Demonstrated ability to integrate security (JWT, OAuth2, HmacSHA256), caching layers (Redis), cloud deployments (AWS EC2/RDS), and CI/CD pipelines. Strong foundation in Data Structures & Algorithms (250+ problems), Object-Oriented Design, and System Design. Recognized as STAR Performer for delivery excellence.");
+                                "Results-driven Software Engineer with hands-on experience building production-grade microservices, REST APIs, and full-stack applications. Proficient in machine learning, data science pipelines, and AI systems. Demonstrated ability to integrate security, caching layers, cloud deployments, and CI/CD pipelines. Strong foundation in Data Structures & Algorithms, Object-Oriented Design, and System Design. Passionate about building scalable, high-impact solutions.");
 
                 // Experience
                 List<Experience> experiences = new ArrayList<>();
