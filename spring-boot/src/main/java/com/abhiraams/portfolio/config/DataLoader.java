@@ -187,7 +187,7 @@ public class DataLoader {
             edu.setInstitution("Bangalore Institute of Technology (BIT)");
             edu.setLocation("Bengaluru");
             edu.setDuration("2022 - 2026 (Expected)");
-            edu.setGpa("9.01 / 10");
+            edu.setGpa("9.145 / 10");
             edu.setCoursework(
                     "Data Structures & Algorithms, OOP, DBMS, Operating Systems, Software Engineering, Machine Learning");
 

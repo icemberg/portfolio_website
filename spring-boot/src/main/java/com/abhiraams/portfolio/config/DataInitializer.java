@@ -130,7 +130,7 @@ public class DataInitializer implements CommandLineRunner {
                 edu1.setInstitution("Bangalore Institute of Technology (BIT)");
                 edu1.setDegree("Bachelor of Engineering – Computer Science");
                 edu1.setDuration("2022 – 2026 (Expected)");
-                edu1.setGpa("CGPA: 9.01 / 10");
+                edu1.setGpa("CGPA: 9.145 / 10");
                 education.add(edu1);
                 profile.setEducations(education);
 
