@@ -14,8 +14,18 @@ const ProjectGrid = ({ projects }) => {
 
   if (!projects) return null;
 
-  const categories = ['ALL', ...new Set(projects.map(p => p.category))];
-  const filteredProjects = filter === 'ALL' ? projects : projects.filter(p => p.category === filter);
+  const normalizedProjects = projects.map((proj) => ({
+    ...proj,
+    category: proj.category || (proj.htmlUrl || proj.githubUrl || proj.html_url ? 'GitHub' : 'Portfolio'),
+    title: proj.title || proj.name || proj.full_name || 'Repository',
+    description: proj.description || proj.body || proj.summary || 'No description available.',
+    githubUrl: proj.githubUrl || proj.htmlUrl || proj.html_url,
+    demoUrl: proj.demoUrl || proj.homepage,
+    technologies: proj.technologies || (proj.language ? proj.language : ''),
+  }));
+
+  const categories = ['ALL', ...new Set(normalizedProjects.map(p => p.category))];
+  const filteredProjects = filter === 'ALL' ? normalizedProjects : normalizedProjects.filter(p => p.category === filter);
 
   return (
     <section id="projects" className="mb-32">
@@ -67,10 +77,12 @@ const ProjectGrid = ({ projects }) => {
               
               <div className="mt-auto space-y-4">
                 <div className="flex flex-wrap gap-1">
-                  {proj.technologies && proj.technologies.split(',').map((tech, i) => (
-                    <span key={i} className="font-mono text-[9px] text-white/70 bg-white/5 border border-white/10 px-2 py-[2px] rounded-sm group-hover:border-accent/30 group-hover:text-white transition-colors">
-                      {tech.trim()}
-                    </span>
+                  {proj.technologies && proj.technologies.toString().split(',').map((tech, i) => (
+                    tech && (
+                      <span key={i} className="font-mono text-[9px] text-white/70 bg-white/5 border border-white/10 px-2 py-[2px] rounded-sm group-hover:border-accent/30 group-hover:text-white transition-colors">
+                        {tech.trim()}
+                      </span>
+                    )
                   ))}
                 </div>
                 
