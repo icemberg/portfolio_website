@@ -10,12 +10,20 @@ import ContactSection from '../components/ContactSection';
 
 const Dashboard = () => {
   const [profile, setProfile] = useState(null);
+  const [codingStats, setCodingStats] = useState(null);
+  const [githubRepos, setGithubRepos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    client.get('/profile')
-      .then(res => {
-        setProfile(res.data);
+    Promise.all([
+      client.get('/profile'),
+      client.get('/coding-stats'),
+      client.get('/github/repos')
+    ])
+      .then(([profileRes, statsRes, reposRes]) => {
+        setProfile(profileRes.data);
+        setCodingStats(statsRes.data);
+        setGithubRepos(reposRes.data);
         setLoading(false);
       })
       .catch(err => {
@@ -50,9 +58,33 @@ const Dashboard = () => {
               rel="noreferrer"
               className="hover:text-accent transition-colors"
             >
-              <div className="font-header text-6xl mb-2">250+</div>
+              <div className="font-header text-6xl mb-2">
+                {(() => {
+                  const totalSolved = [
+                    codingStats?.leetcode?.solvedCount,
+                    codingStats?.hackerrank?.solvedCount,
+                    codingStats?.gfg?.solvedCount,
+                  ].reduce((sum, count) => sum + (count ?? 0), 0);
+                  return totalSolved || '250+';
+                })()}
+              </div>
             </a>
             <div className="font-mono text-xs text-text-dim uppercase tracking-widest px-4">DSA_VECTORS_SOLVED</div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-6 text-[9px] uppercase tracking-[0.35em] text-text-dim">
+              <a href={profile.leetcode} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
+                LEETCODE
+                <div className="text-[10px] mt-1 text-accent">{codingStats?.leetcode?.solvedCount ?? '--'}</div>
+              </a>
+              <a href={profile.hackerrank} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
+                HACKERRANK
+                <div className="text-[10px] mt-1 text-accent">{codingStats?.hackerrank?.solvedCount ?? '--'}</div>
+              </a>
+              <a href={profile.gfg} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
+                GFG
+                <div className="text-[10px] mt-1 text-accent">{codingStats?.gfg?.solvedCount ?? '--'}</div>
+              </a>
+            </div>
 
             <div className="flex gap-4 mt-6">
               {profile.gfg && (
@@ -83,7 +115,15 @@ const Dashboard = () => {
 
       <SkillsMatrix skills={profile.skills} />
       <ExperienceTimeline experiences={profile.experiences} />
-      <ProjectGrid projects={profile.projects} />
+      <ProjectGrid projects={(() => {
+        const all = [...(profile.projects || []), ...(githubRepos || [])];
+        const seen = new Map();
+        all.forEach(p => {
+          const key = (p.githubUrl || p.title || '').toLowerCase().trim();
+          if (!seen.has(key)) seen.set(key, p);
+        });
+        return [...seen.values()];
+      })()} />
       <Certifications certifications={profile.certifications} />
       <ContactSection email={profile.email} location={profile.location} />
     </div>
