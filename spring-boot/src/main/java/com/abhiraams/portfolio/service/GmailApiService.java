@@ -15,7 +15,9 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -30,7 +32,7 @@ import java.util.Properties;
 @Slf4j
 public class GmailApiService {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
+    private final OAuth2AuthorizedClientManager authorizedClientManager;
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String APP_NAME = "Java portfolio Website";
 
@@ -40,7 +42,7 @@ public class GmailApiService {
     public void sendEmail(String to, String subject, String body)
             throws IOException, GeneralSecurityException, MessagingException {
         log.info("Attempting to load authorized client for registration: google, principal: {}", ownerPrincipal);
-        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient("google", ownerPrincipal);
+        OAuth2AuthorizedClient client = loadAuthorizedClient();
 
         if (client == null) {
             log.error(
@@ -66,6 +68,25 @@ public class GmailApiService {
 
         service.users().messages().send("me", message).execute();
         log.info("Email sent successfully using Gmail API to: {}", to);
+    }
+
+    /**
+     * Returns the owner's Gmail authorization with a valid access token, refreshing an
+     * expired one with the stored refresh token (see GmailConfig#authorizedClientManager).
+     */
+    OAuth2AuthorizedClient loadAuthorizedClient() {
+        OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("google")
+                .principal(ownerPrincipal)
+                .build();
+        try {
+            return authorizedClientManager.authorize(request);
+        } catch (OAuth2AuthorizationException e) {
+            // e.g. invalid_grant: the refresh token was revoked (password change, access
+            // removed in the Google account). The stale authorization is removed; log in again.
+            log.error("Refreshing the Gmail token failed ({}). Please visit /login to authorize again.",
+                    e.getError().getErrorCode());
+            throw new IllegalStateException("Gmail authorization expired. Please visit /login again.", e);
+        }
     }
 
     private MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
