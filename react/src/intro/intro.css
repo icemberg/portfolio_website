@@ -1,0 +1,215 @@
+/*
+ * Particle intro styles (from the standalone intro's style.css; intro rules only).
+ * The app (#root) stays laid out but invisible until handoff, so the particles
+ * can measure the real hero heading. Never display:none, never transform #root.
+ *
+ * Tokens and keyframes are prefixed so they don't leak into the portfolio
+ * (Tailwind's animate-pulse uses @keyframes pulse; --accent-rgb isn't defined there).
+ */
+:root {
+    --intro-accent: #ff00ff;
+    --intro-accent-rgb: 255, 0, 255;
+    --intro-background: #050505;
+    --intro-font-mono: "Space Mono", monospace;
+}
+
+body.intro-running {
+    overflow: hidden;
+}
+
+/* Reserve the scrollbar's space while scrolling is locked, so the hero doesn't
+   shift sideways (away from where the particles landed) when the lock lifts. */
+html {
+    scrollbar-gutter: stable;
+}
+
+/* ---------- Particle canvas + atmosphere ---------- */
+
+#ocean {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    cursor: crosshair;
+}
+
+body.intro-complete #ocean {
+    cursor: default;
+}
+
+/* dot grid fades in once the dashboard is live */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, rgba(var(--intro-accent-rgb), .06) 1px, transparent 0);
+    background-size: 40px 40px;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+}
+
+body.handoff::before,
+body.intro-complete::before {
+    opacity: 1;
+}
+
+/* faint CRT scanlines + vignette */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .55) 100%),
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, .025) 0 1px, transparent 1px 4px);
+}
+
+/* ---------- Boot status + skip ---------- */
+
+#bootStatus {
+    position: fixed;
+    left: 24px;
+    bottom: 22px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100vw - 240px);
+    color: var(--intro-accent);
+    font: 400 11px/1.5 var(--intro-font-mono);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity .6s ease;
+}
+
+#bootStatusText::after {
+    content: "_";
+    animation: intro-blink 1s steps(1) infinite;
+}
+
+.boot-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--intro-accent);
+    box-shadow: 0 0 10px rgba(var(--intro-accent-rgb), .8);
+    animation: intro-pulse 1.6s ease-in-out infinite;
+    flex: none;
+}
+
+body.handoff #bootStatus,
+body.intro-complete #bootStatus {
+    opacity: 0;
+}
+
+#skipIntro {
+    position: fixed;
+    right: 24px;
+    bottom: 18px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid rgba(var(--intro-accent-rgb), .45);
+    background: rgba(5, 5, 5, .7);
+    color: var(--intro-accent);
+    font: 400 10px/1 var(--intro-font-mono);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s ease, background .25s ease, color .25s ease;
+}
+
+#skipIntro kbd {
+    padding: 2px 5px;
+    border: 1px solid rgba(var(--intro-accent-rgb), .35);
+    font: inherit;
+    font-size: 9px;
+    letter-spacing: .1em;
+}
+
+body.can-skip #skipIntro {
+    opacity: .85;
+    pointer-events: auto;
+}
+
+body.handoff #skipIntro,
+body.intro-complete #skipIntro {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#skipIntro:hover,
+#skipIntro:focus-visible {
+    background: var(--intro-accent);
+    color: #000;
+    outline: none;
+}
+
+/* ---------- The app: hidden (but laid out) until handoff ---------- */
+
+#root {
+    position: relative;
+    z-index: 3;
+    min-height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* crossfades with the particle heading (engine fades particles over 1.1 s) */
+    transition: opacity 1.1s ease;
+}
+
+body.handoff #root,
+body.intro-complete #root {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.intro-complete #root {
+    pointer-events: auto;
+}
+
+@keyframes intro-pulse {
+    50% { opacity: .35; }
+}
+
+@keyframes intro-blink {
+    50% { opacity: 0; }
+}
+
+/* Tailwind md breakpoint = 768px */
+@media (max-width: 767px) {
+    #bootStatus {
+        left: 16px;
+        bottom: 70px;
+        max-width: calc(100vw - 32px);
+    }
+
+    #skipIntro {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+/* scoped to the intro's own elements so the portfolio's motion is unchanged */
+@media (prefers-reduced-motion: reduce) {
+    #root,
+    #bootStatus,
+    #bootStatus *,
+    #bootStatus *::after,
+    #skipIntro,
+    body::before,
+    body::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}

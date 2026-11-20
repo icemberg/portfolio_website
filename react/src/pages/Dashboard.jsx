@@ -8,6 +8,11 @@ import Education from '../components/Education';
 import Certifications from '../components/Certifications';
 import ContactSection from '../components/ContactSection';
 
+// public/intro/boot-requests.js starts these requests at second 0 (before React loads);
+// reuse its shared promises instead of fetching again.
+const boot = window.__portfolioBoot;
+const load = (key, path) => (boot ? boot.requests[key] : client.get(path).then((r) => r.data));
+
 const Dashboard = () => {
   const [profile, setProfile] = useState(null);
   const [codingStats, setCodingStats] = useState(null);
@@ -15,22 +20,19 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      client.get('/profile'),
-      client.get('/coding-stats'),
-      client.get('/github/repos')
-    ])
-      .then(([profileRes, statsRes, reposRes]) => {
-        setProfile(profileRes.data);
-        setCodingStats(statsRes.data);
-        setGithubRepos(reposRes.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+    // The hero only needs the profile; coding stats and repos fill in independently.
+    load('profile', '/profile')
+      .then(setProfile)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+    load('stats', '/coding-stats').then(setCodingStats).catch(console.error);
+    load('github', '/github/repos').then(setGithubRepos).catch(console.error);
   }, []);
+
+  // Tell the intro the hero is rendered so the particles land on the real heading.
+  useEffect(() => {
+    if (profile) requestAnimationFrame(() => window.__intro?.setReady());
+  }, [profile]);
 
   if (loading) {
     return <div className="text-accent font-mono animate-pulse uppercase">Booting sequence...</div>;

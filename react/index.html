@@ -2,14 +2,38 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        // Same base URL as src/api/client.js (VITE_API_BASE_URL || '/api').
+        // Vite leaves an undefined %VAR% as the literal placeholder, hence the "%" check.
+        var base = "%VITE_API_BASE_URL%";
+        if (!base || base.charAt(0) === "\x25") base = "/api";
+        window.__API_BASE__ = base.replace(/\/+$/, "");
+        window.__INTRO_EXTERNAL_READY__ = true; // Dashboard calls window.__intro.setReady()
+        // The intro measures the hero in viewport coordinates and hands off onto it,
+        // so a reload must start at the top instead of restoring the old scroll offset.
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      })();
+    </script>
+    <!-- Fires /profile, /coding-stats, /github/repos at second 0 while the intro plays -->
+    <script src="/intro/boot-requests.js"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Impact Dashboard | Abhiraam S.</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&family=Roboto+Condensed:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   </head>
-  <body class="bg-background text-text-main font-technical grid-mesh min-h-screen">
+  <body class="intro-running bg-background text-text-main font-technical grid-mesh min-h-screen">
+    <canvas id="ocean" aria-hidden="true"></canvas>
+    <div id="bootStatus" role="status" aria-live="polite">
+      <span class="boot-dot"></span>
+      <span id="bootStatusText">BOOTING_SEQUENCE</span>
+    </div>
+    <button id="skipIntro" type="button" aria-label="Skip intro animation">
+      Skip_Intro <kbd>Esc</kbd>
+    </button>
     <div id="root"></div>
+    <script type="module" src="/src/intro/main.js"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

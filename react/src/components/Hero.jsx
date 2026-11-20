@@ -26,12 +26,12 @@ const Hero = ({ profile }) => {
         [ SYSTEM_BOOT_COMPLETE. USER_IDENTIFIED: {profile?.name?.replaceAll(/\s+/g, '_').toUpperCase()} ]
       </div>
       
-      <h1 className="font-header text-6xl md:text-[10rem] leading-[0.8] uppercase mb-6 tracking-tighter transition-all hover:tracking-normal duration-700 cursor-default">
+      <h1 data-particle="name" data-tone="1" className="font-header text-6xl md:text-[10rem] leading-[0.8] uppercase mb-6 tracking-tighter transition-all hover:tracking-normal duration-700 cursor-default">
         {profile?.name}
       </h1>
       
       <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-10">
-        <h2 className="font-header text-2xl md:text-5xl text-text-dim uppercase tracking-tight">
+        <h2 data-particle="title" data-tone="2" className="font-header text-2xl md:text-5xl text-text-dim uppercase tracking-tight">
           {profile?.title}
         </h2>
         <span className="hidden md:inline h-px w-24 bg-white/20"></span>
