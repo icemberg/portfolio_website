@@ -67,7 +67,21 @@ public class DataLoader {
 
             profile.setSkills(Arrays.asList(languages, backend, frontend, databases, cloud, testing, ai, core));
 
-            // Experience
+            // Experience (most recent first; the timeline renders in this order)
+            Experience e0 = new Experience();
+            e0.setTitle("Web Developer");
+            e0.setCompany("Vṛtam Studios");
+            e0.setLocation("Bengaluru, Karnataka, India · Remote · Full-time");
+            e0.setDuration("Sep 2026 - Present");
+            e0.setDescription(
+                    "Contributing to the development of Kathakar at Vṛtam Studios, an interactive platform designed to bring Indian cultural knowledge and storytelling to life through immersive live sessions and engaging learning experiences. This experience has strengthened my skills in product development, software engineering, and building user-focused digital solutions that combine technology, storytelling, and interactive learning.");
+            e0.setBulletPoints(Arrays.asList(
+                    "Contributing to the development and enhancement of an interactive platform for live storytelling, cultural education, and audience engagement",
+                    "Integrating and building production-grade AI solutions into the platform",
+                    "Working on features that support real-time participant interaction, quizzes, and engaging digital experiences",
+                    "Helping build a seamless and reliable platform experience, designed to keep storytellers and participants connected in one place",
+                    "Supporting a platform that has served 400+ participants, bringing interactive cultural and learning experiences to a real audience"));
+
             Experience e1 = new Experience();
             e1.setTitle("Java Developer Trainee");
             e1.setCompany("HulkHire Tech");
@@ -91,7 +105,7 @@ public class DataLoader {
                     "Built end-to-end data science pipelines from data ingestion and preprocessing to model training and performance evaluation",
                     "Applied feature engineering and hyperparameter tuning techniques to improve model generalization on time-series EV sensor data"));
 
-            profile.setExperiences(Arrays.asList(e1, e2));
+            profile.setExperiences(Arrays.asList(e0, e1, e2));
 
             // Projects
             Project p1 = new Project();

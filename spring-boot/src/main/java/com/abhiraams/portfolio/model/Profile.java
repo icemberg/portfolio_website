@@ -30,6 +30,7 @@ public class Profile {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
+    @OrderBy("id ASC") // the order DataLoader lists them in (most recent first)
     private List<Experience> experiences;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
