@@ -36,3 +36,5 @@ build/
 
 ### Logs ###
 *.log
+# rotated log archives (spring-boot-log.log.2026-08-02.0.gz, ...)
+*.log.*.gz
