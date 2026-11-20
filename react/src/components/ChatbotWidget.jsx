@@ -56,7 +56,7 @@ const ChatbotWidget = ({ isOpen, setIsOpen }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-24 right-6 w-full max-w-[380px] h-[500px] z-50 rounded-lg border border-accent/20 bg-background/90 backdrop-blur-xl shadow-2xl shadow-accent/10 flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 w-[min(380px,calc(100vw-3rem))] h-[min(500px,calc(100dvh-8rem))] z-50 rounded-lg border border-accent/20 bg-background/90 backdrop-blur-xl shadow-2xl shadow-accent/10 flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-accent/10 border-b border-accent/20 px-4 py-3 flex justify-between items-center">
@@ -86,7 +86,7 @@ const ChatbotWidget = ({ isOpen, setIsOpen }) => {
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.sender === 'user' ? 'bg-white/10 ml-2' : 'bg-accent/20 mr-2'}`}>
                       {msg.sender === 'user' ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-accent" />}
                     </div>
-                    <div className={`p-3 rounded-tr-none rounded-lg text-sm font-sans ${msg.sender === 'user' ? 'bg-white/10 text-white border border-white/5 rounded-br-none' : 'bg-accent/10 text-text border border-accent/20 rounded-bl-none'} whitespace-pre-wrap`}>
+                    <div className={`p-3 rounded-tr-none rounded-lg text-sm font-sans ${msg.sender === 'user' ? 'bg-white/10 text-white border border-white/5 rounded-br-none' : 'bg-accent/10 text-text-main border border-accent/20 rounded-bl-none'} whitespace-pre-wrap`}>
                       {msg.sender === 'ai' ? (
                         <div className="prose prose-invert max-w-none text-sm leading-relaxed prose-p:my-1 prose-headings:text-accent prose-strong:text-accent prose-ul:my-2 prose-li:my-0 mt-0">
                           <ReactMarkdown>

@@ -46,12 +46,12 @@ const Dashboard = () => {
     <div className="flex flex-col">
       <Hero profile={profile} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-32">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-section">
         <div className="lg:col-span-8">
           <Education education={profile.educations} />
         </div>
         <div className="lg:col-span-4">
-          <div className="bg-surface p-8 widget-border flex flex-col justify-center items-center text-center group cursor-default h-full relative overflow-hidden">
+          <div className="bg-surface p-6 sm:p-8 widget-border flex flex-col justify-center items-center text-center group cursor-default h-full relative overflow-hidden">
             <div className="scanline group-hover:opacity-50"></div>
             <div className="material-symbols-outlined text-accent text-6xl mb-6 group-hover:scale-110 transition-transform">terminal</div>
             <a
@@ -71,45 +71,45 @@ const Dashboard = () => {
                 })()}
               </div>
             </a>
-            <div className="font-mono text-xs text-text-dim uppercase tracking-widest px-4">DSA_VECTORS_SOLVED</div>
+            <div className="font-mono text-label text-text-dim uppercase tracking-widest px-4">DSA_VECTORS_SOLVED</div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-6 text-[9px] uppercase tracking-[0.35em] text-text-dim">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-6 w-full text-label uppercase tracking-[0.15em] text-text-dim">
               <a href={profile.leetcode} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
                 LEETCODE
-                <div className="text-[10px] mt-1 text-accent">{codingStats?.leetcode?.solvedCount ?? '--'}</div>
+                <div className="text-chip mt-1 text-accent tracking-normal">{codingStats?.leetcode?.solvedCount ?? '--'}</div>
               </a>
               <a href={profile.hackerrank} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
                 HACKERRANK
-                <div className="text-[10px] mt-1 text-accent">{codingStats?.hackerrank?.solvedCount ?? '--'}</div>
+                <div className="text-chip mt-1 text-accent tracking-normal">{codingStats?.hackerrank?.solvedCount ?? '--'}</div>
               </a>
               <a href={profile.gfg} target="_blank" rel="noreferrer" className="block border border-white/10 px-2 py-2 rounded-xl hover:border-accent hover:text-accent transition-all text-center">
                 GFG
-                <div className="text-[10px] mt-1 text-accent">{codingStats?.gfg?.solvedCount ?? '--'}</div>
+                <div className="text-chip mt-1 text-accent tracking-normal">{codingStats?.gfg?.solvedCount ?? '--'}</div>
               </a>
             </div>
 
-            <div className="flex gap-4 mt-6">
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
               {profile.gfg && (
-                <a href={profile.gfg} target="_blank" rel="noreferrer" className="font-mono text-[9px] text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase">
+                <a href={profile.gfg} target="_blank" rel="noreferrer" className="font-mono text-label text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase">
                   GFG_PROFILE
                 </a>
               )}
               {profile.hackerrank && (
-                <a href={profile.hackerrank} target="_blank" rel="noreferrer" className="font-mono text-[9px] text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase">
+                <a href={profile.hackerrank} target="_blank" rel="noreferrer" className="font-mono text-label text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase">
                   HACKERRANK
                 </a>
               )}
               {profile.leetcode && (
                 <a href={profile.leetcode} target="_blank" rel="noreferrer"
-                  className='font-mono text-[9px] text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase'>
+                  className="font-mono text-label text-accent border border-accent/20 px-2 py-1 hover:bg-accent/10 transition-all uppercase">
                   LEETCODE
                 </a>
               )}
             </div>
 
             <div className="mt-8 border-t border-white/10 pt-4 w-full">
-              <div className="font-mono text-[10px] text-accent/70 uppercase">STAR_PERFORMER_AWARD</div>
-              <div className="font-mono text-[9px] text-text-dim mt-1 uppercase tracking-tighter">HulkHire_Tech // DELIVERY_EXCELLENCE</div>
+              <div className="font-mono text-label text-accent/70 uppercase">STAR_PERFORMER_AWARD</div>
+              <div className="font-mono text-label text-text-dim mt-1 uppercase tracking-tighter">HulkHire_Tech // DELIVERY_EXCELLENCE</div>
             </div>
           </div>
         </div>

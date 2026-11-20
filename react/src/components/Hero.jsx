@@ -18,25 +18,25 @@ const Linkedin = ({ className }) => (
 
 const Hero = ({ profile }) => {
   return (
-    <section id="hero" className="min-h-[90vh] flex flex-col justify-center border-l-4 border-accent pl-6 mb-20 md:mb-32 relative">
+    <section id="hero" className="min-h-[90vh] flex flex-col justify-center border-l-4 border-accent pl-5 sm:pl-6 mb-section relative">
       <div className="absolute -left-[5px] top-0 w-2 h-20 bg-gradient-to-b from-accent to-transparent"></div>
       
-      <div className="font-mono text-accent text-sm md:text-base mb-6 tracking-widest uppercase flex items-center gap-4">
+      <div className="font-mono text-accent text-body-sm md:text-base mb-6 tracking-widest uppercase flex items-center gap-4 [overflow-wrap:anywhere]">
         <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse"></span>
         [ SYSTEM_BOOT_COMPLETE. USER_IDENTIFIED: {profile?.name?.replaceAll(/\s+/g, '_').toUpperCase()} ]
       </div>
       
-      <h1 data-particle="name" data-tone="1" className="font-header text-6xl md:text-[10rem] leading-[0.8] uppercase mb-6 tracking-tighter transition-all hover:tracking-normal duration-700 cursor-default">
+      <h1 data-particle="name" data-tone="1" className="font-header text-hero leading-[0.8] uppercase mb-6 tracking-tighter transition-all hover:tracking-normal duration-700 cursor-default">
         {profile?.name}
       </h1>
       
       <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-10">
-        <h2 data-particle="title" data-tone="2" className="font-header text-2xl md:text-5xl text-text-dim uppercase tracking-tight">
+        <h2 data-particle="title" data-tone="2" className="font-header text-hero-sub text-text-dim uppercase tracking-tight">
           {profile?.title}
         </h2>
         <span className="hidden md:inline h-px w-24 bg-white/20"></span>
         <div className="flex flex-col">
-          <span className="font-mono text-accent/80 text-[10px] uppercase tracking-widest">SYS_LOC</span>
+          <span className="font-mono text-accent/80 text-label uppercase tracking-widest">SYS_LOC</span>
           <span className="font-mono text-white text-xs uppercase tracking-widest">
             {profile?.location}
           </span>
@@ -45,11 +45,11 @@ const Hero = ({ profile }) => {
       
       <div className="max-w-4xl relative">
         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-white/10 to-transparent"></div>
-        <p className="font-mono text-sm md:text-lg text-text-main leading-relaxed mb-12 pl-8 py-2 max-w-2xl">
+        <p className="font-mono text-body-lg text-text-main mb-12 pl-6 sm:pl-8 py-2 max-w-2xl">
           {profile?.summary}
         </p>
 
-        <div className="flex flex-wrap gap-6 pl-8">
+        <div className="flex flex-wrap gap-4 sm:gap-6 pl-6 sm:pl-8">
           <a href="#projects" className="bg-accent text-background px-8 py-4 font-header text-xl uppercase hover:bg-white hover:text-accent transition-all duration-500 shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]">
             Execute_Missions
           </a>

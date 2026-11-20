@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import client from '../api/client';
+import SectionHeader from './SectionHeader';
 
 const ContactSection = ({ email, location }) => {
   const [formData, setFormData] = useState({
@@ -32,34 +33,30 @@ const ContactSection = ({ email, location }) => {
   };
 
   return (
-    <section id="contact" className="mb-32 relative">
-      <div className="mb-12 border-b border-white/5 pb-4 flex justify-between items-end">
-        <div>
-          <h2 className="font-header text-4xl md:text-6xl uppercase tracking-tighter text-accent">Contact_User</h2>
-          <p className="font-mono text-xs text-text-dim mt-2 tracking-widest">{'// UPLINK_ESTABLISHMENT_PROTOCOL'}</p>
-        </div>
-        <div className="hidden md:block font-mono text-[10px] text-text-dim uppercase tracking-tighter">
+    <section id="contact" className="mb-section relative">
+      <SectionHeader title="Contact_User" subtitle="// UPLINK_ESTABLISHMENT_PROTOCOL">
+        <div className="hidden md:block font-mono text-label text-text-dim uppercase tracking-tighter">
           SECURE_LINE_ENCRYPTED: {new Date().getFullYear()}
         </div>
-      </div>
+      </SectionHeader>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left Side: Contact Info */}
         <div className="space-y-12">
-          <div className="relative pl-8 py-4 border-l border-accent/30">
+          <div className="relative pl-6 sm:pl-8 py-4 border-l border-accent/30">
              <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent/10"></div>
-             <p className="font-mono text-text-main text-lg mb-8 leading-relaxed italic">
+             <p className="font-mono text-text-main text-body-lg mb-8 italic">
                "Ready to architect scalable solutions or discuss high-impact collaborations? Initiate the uplink relay or find me on system networks."
              </p>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                <div className="flex flex-col">
-                 <span className="font-mono text-accent text-[10px] uppercase tracking-widest mb-1">EMAIL_ACCESS</span>
-                 <span className="font-header text-xl uppercase tracking-tight">{email}</span>
+                 <span className="font-mono text-accent text-label uppercase tracking-widest mb-1">EMAIL_ACCESS</span>
+                 <a href={`mailto:${email}`} className="font-header text-card-title uppercase tracking-tight hover:text-accent transition-colors [overflow-wrap:anywhere]">{email}</a>
                </div>
                <div className="flex flex-col">
-                 <span className="font-mono text-accent text-[10px] uppercase tracking-widest mb-1">GEOGRAPHICAL_NODE</span>
-                 <span className="font-header text-xl uppercase tracking-tight">{location}</span>
+                 <span className="font-mono text-accent text-label uppercase tracking-widest mb-1">GEOGRAPHICAL_NODE</span>
+                 <span className="font-header text-card-title uppercase tracking-tight">{location}</span>
                </div>
              </div>
           </div>
@@ -68,9 +65,9 @@ const ContactSection = ({ email, location }) => {
             <div className="scanline group-hover:opacity-100"></div>
             <div className="flex items-center gap-4 text-accent mb-4">
               <span className="material-symbols-outlined">shield</span>
-              <span className="font-mono text-[10px] uppercase tracking-widest">Privacy_Statement</span>
+              <span className="font-mono text-label uppercase tracking-widest">Privacy_Statement</span>
             </div>
-            <p className="font-mono text-[11px] text-text-dim leading-relaxed uppercase tracking-tighter">
+            <p className="font-mono text-chip text-text-dim leading-relaxed uppercase tracking-tighter">
               Your message will be relayed through an encrypted gateway directly to the system administrator. 
               Zero persistent data storage protocol enforced. Only temporary memory buffer used for relay.
             </p>
@@ -78,11 +75,11 @@ const ContactSection = ({ email, location }) => {
         </div>
 
         {/* Right Side: Contact Form */}
-        <div className="bg-surface widget-border p-8 relative overflow-hidden shadow-[0_0_50px_rgba(var(--accent-rgb),0.05)] focus-within:shadow-[0_0_50px_rgba(var(--accent-rgb),0.1)] transition-shadow">
+        <div className="bg-surface widget-border p-5 sm:p-8 relative overflow-hidden shadow-[0_0_50px_rgba(var(--accent-rgb),0.05)] focus-within:shadow-[0_0_50px_rgba(var(--accent-rgb),0.1)] transition-shadow">
           <form onSubmit={handleSubmit} className="relative z-10 space-y-6 text-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col space-y-2">
-                <label className="font-mono text-[10px] text-accent uppercase tracking-widest">Node_Name</label>
+                <label className="font-mono text-label text-accent uppercase tracking-widest">Node_Name</label>
                 <input 
                   type="text" 
                   name="name"
@@ -94,7 +91,7 @@ const ContactSection = ({ email, location }) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <label className="font-mono text-[10px] text-accent uppercase tracking-widest">Return_Address</label>
+                <label className="font-mono text-label text-accent uppercase tracking-widest">Return_Address</label>
                 <input 
                   type="email" 
                   name="email"
@@ -108,7 +105,7 @@ const ContactSection = ({ email, location }) => {
             </div>
 
             <div className="flex flex-col space-y-2">
-              <label className="font-mono text-[10px] text-accent uppercase tracking-widest">Subject_Header</label>
+              <label className="font-mono text-label text-accent uppercase tracking-widest">Subject_Header</label>
               <input 
                 type="text" 
                 name="subject"
@@ -121,7 +118,7 @@ const ContactSection = ({ email, location }) => {
             </div>
 
             <div className="flex flex-col space-y-2">
-              <label className="font-mono text-[10px] text-accent uppercase tracking-widest">Message_Payload</label>
+              <label className="font-mono text-label text-accent uppercase tracking-widest">Message_Payload</label>
               <textarea 
                 name="message"
                 value={formData.message}
@@ -155,12 +152,12 @@ const ContactSection = ({ email, location }) => {
             </button>
 
             {status === 'SUCCESS' && (
-              <div className="font-mono text-[10px] text-emerald-400 text-center animate-pulse uppercase tracking-widest">
+              <div className="font-mono text-label text-emerald-400 text-center animate-pulse uppercase tracking-widest">
                 Message successfully transmitted to system administrator.
               </div>
             )}
             {status === 'ERROR' && (
-              <div className="font-mono text-[10px] text-red-400 text-center animate-pulse uppercase tracking-widest">
+              <div className="font-mono text-label text-red-400 text-center animate-pulse uppercase tracking-widest">
                 Critical error: {errorMessage}
               </div>
             )}

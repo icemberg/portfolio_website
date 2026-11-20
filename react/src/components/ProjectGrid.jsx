@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ExternalLink, Code, Brain } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
 const Github = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -28,20 +29,15 @@ const ProjectGrid = ({ projects }) => {
   const filteredProjects = filter === 'ALL' ? normalizedProjects : normalizedProjects.filter(p => p.category === filter);
 
   return (
-    <section id="projects" className="mb-32">
-      <div className="mb-12 border-b border-white/5 pb-4">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <h2 className="font-header text-4xl md:text-6xl uppercase tracking-tighter text-accent">Technical_Missions</h2>
-            <p className="font-mono text-xs text-text-dim mt-2 tracking-widest">// MODULES: RESEARCH_AND_DEVELOPMENT</p>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
+    <section id="projects" className="mb-section">
+      <SectionHeader title="Technical_Missions" subtitle="// MODULES: RESEARCH_AND_DEVELOPMENT">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`font-mono text-[10px] uppercase tracking-widest px-3 py-1 border transition-all ${
+                aria-pressed={filter === cat}
+                className={`font-mono text-label uppercase tracking-widest px-3 py-1.5 border transition-all ${
                   filter === cat 
                     ? 'bg-accent text-background border-accent' 
                     : 'bg-transparent text-text-dim border-white/10 hover:border-accent hover:text-accent'
@@ -51,35 +47,34 @@ const ProjectGrid = ({ projects }) => {
               </button>
             ))}
           </div>
-        </div>
-      </div>
+      </SectionHeader>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProjects.map((proj, index) => (
           <div key={index} className="bg-surface widget-border flex flex-col h-full group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(var(--accent-rgb),0.1)]">
             <div className="scanline group-hover:opacity-50"></div>
             
-            <div className="p-6 flex-grow flex flex-col">
+            <div className="p-5 sm:p-6 flex-grow flex flex-col">
               <div className="flex justify-between items-start mb-4">
-                <div className="font-mono text-[9px] text-accent border border-accent/20 px-2 py-1 bg-accent/5 uppercase tracking-widest">
+                <div className="font-mono text-label text-accent border border-accent/20 px-2 py-1 bg-accent/5 uppercase tracking-widest">
                   {proj.category}
                 </div>
                 {proj.category === 'AI_ML' || proj.category === 'RESEARCH' ? <Brain className="w-4 h-4 text-accent/50" /> : <Code className="w-4 h-4 text-accent/50" />}
               </div>
               
-              <h3 className="font-header text-xl uppercase tracking-tighter mb-3 leading-tight group-hover:text-accent transition-colors">
+              <h3 className="font-header text-card-title uppercase tracking-tighter mb-3 group-hover:text-accent transition-colors">
                 {proj.title}
               </h3>
               
-              <p className="text-xs text-text-dim leading-relaxed flex-grow mb-6 font-technical">
+              <p className="text-body-sm text-text-dim flex-grow mb-6 font-technical">
                 {proj.description}
               </p>
               
               <div className="mt-auto space-y-4">
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {proj.technologies && proj.technologies.toString().split(',').map((tech, i) => (
                     tech && (
-                      <span key={i} className="font-mono text-[9px] text-white/70 bg-white/5 border border-white/10 px-2 py-[2px] rounded-sm group-hover:border-accent/30 group-hover:text-white transition-colors">
+                      <span key={i} className="font-mono text-label text-white/75 bg-white/5 border border-white/10 px-2 py-0.5 rounded-sm group-hover:border-accent/30 group-hover:text-white transition-colors">
                         {tech.trim()}
                       </span>
                     )
@@ -93,7 +88,7 @@ const ProjectGrid = ({ projects }) => {
                         href={proj.githubUrl} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 font-mono text-[10px] uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
+                        className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-white/10 font-mono text-label uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
                       >
                         <Github className="w-3 h-3" />
                         <span>SOURCE_CODE</span>
@@ -104,7 +99,7 @@ const ProjectGrid = ({ projects }) => {
                         href={proj.demoUrl} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="flex-1 flex items-center justify-center gap-2 py-2 border border-accent bg-accent/5 text-accent font-mono text-[10px] uppercase hover:bg-accent hover:text-background transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-accent bg-accent/5 text-accent font-mono text-label uppercase hover:bg-accent hover:text-background transition-all"
                       >
                         <ExternalLink className="w-3 h-3" />
                         <span>EXECUTE</span>
@@ -118,7 +113,7 @@ const ProjectGrid = ({ projects }) => {
                           href={proj.frontendUrl} 
                           target="_blank" 
                           rel="noreferrer" 
-                          className="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 font-mono text-[10px] uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-white/10 font-mono text-label uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
                         >
                           <Github className="w-3 h-3" />
                           <span>FRONTEND</span>
@@ -129,7 +124,7 @@ const ProjectGrid = ({ projects }) => {
                           href={proj.backendUrl} 
                           target="_blank" 
                           rel="noreferrer" 
-                          className="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 font-mono text-[10px] uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-white/10 font-mono text-label uppercase hover:border-accent hover:text-accent hover:bg-accent/5 transition-all group/btn"
                         >
                           <Github className="w-3 h-3" />
                           <span>BACKEND</span>
