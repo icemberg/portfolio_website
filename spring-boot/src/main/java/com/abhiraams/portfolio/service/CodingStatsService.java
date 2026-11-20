@@ -14,20 +14,42 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.abhiraams.portfolio.dto.CodingStatsResponse;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class CodingStatsService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    /*
+     * Upstream sites sometimes accept a connection and never answer (seen with
+     * leetcode.com stuck in the TLS handshake). Without timeouts that request,
+     * and every request waiting on it, hangs until the server restarts.
+     */
+    static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(5);
+    static final Duration READ_TIMEOUT = Duration.ofSeconds(8);
+
+    private final RestTemplate restTemplate;
+
+    public CodingStatsService() {
+        this(createRestTemplate());
+    }
+
+    CodingStatsService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    static RestTemplate createRestTemplate() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(CONNECT_TIMEOUT);
+        requestFactory.setReadTimeout(READ_TIMEOUT);
+        return new RestTemplate(requestFactory);
+    }
 
     @Value("${leetcode.username}")
     private String leetcodeUsername;
@@ -38,7 +60,9 @@ public class CodingStatsService {
     @Value("${gfg.username}")
     private String gfgUsername;
 
-    @Cacheable(value = "codingStats", sync = true)
+    // A failed platform is not cached, so the next request retries instead of showing
+    // "--" until the cache expires. (`sync = true` can't be combined with `unless`.)
+    @Cacheable(value = "codingStats", unless = "#result.incomplete")
     public CodingStatsResponse getCodingStats() {
         CodingStatsResponse response = new CodingStatsResponse();
 
@@ -86,6 +110,7 @@ public class CodingStatsService {
             CodingStatsResponse.CodingPlatformStats stats = new CodingStatsResponse.CodingPlatformStats();
             stats.setProfileUrl("https://www.leetcode.com/in/" + leetcodeUsername);
             stats.setSolvedCount(null);
+            stats.setFailed(true);
             return stats;
         }
     }
@@ -121,6 +146,7 @@ public class CodingStatsService {
             CodingStatsResponse.CodingPlatformStats platformStats = new CodingStatsResponse.CodingPlatformStats();
             platformStats.setProfileUrl("https://www.hackerrank.com/profile/" + hackerrankUsername);
             platformStats.setSolvedCount(null);
+            platformStats.setFailed(true);
             return platformStats;
         }
     }
@@ -154,6 +180,7 @@ public class CodingStatsService {
             CodingStatsResponse.CodingPlatformStats platformStats = new CodingStatsResponse.CodingPlatformStats();
             platformStats.setProfileUrl(profileUrl);
             platformStats.setSolvedCount(null);
+            platformStats.setFailed(true);
             return platformStats;
         }
     }
